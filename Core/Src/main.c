@@ -65,7 +65,11 @@ int _write(int file, char *ptr, int len)
 
 void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 {
-
+	uint8_t key_pressed = keypad_scan(GPIO_Pin);
+		if (key_pressed != 0xFF) {
+			printf("Pressed: %c\r\n", key_pressed);
+			return;
+		}
 }
 /* USER CODE END 0 */
 
@@ -256,6 +260,13 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
+
+  /* EXTI interrupt init*/
+  HAL_NVIC_SetPriority(EXTI9_5_IRQn, 0, 0);
+  HAL_NVIC_EnableIRQ(EXTI9_5_IRQn);
+
+  HAL_NVIC_SetPriority(EXTI15_10_IRQn, 0, 0);
+  HAL_NVIC_EnableIRQ(EXTI15_10_IRQn);
 
 /* USER CODE BEGIN MX_GPIO_Init_2 */
 /* USER CODE END MX_GPIO_Init_2 */
