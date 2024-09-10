@@ -26,6 +26,7 @@
 #include "ssd1306_fonts.h"
 #include "ssd1306_tests.h"
 #include "keypad.h"
+#include "ring_buffer.h"
 
 /* USER CODE END Includes */
 
@@ -50,7 +51,13 @@ I2C_HandleTypeDef hi2c1;
 UART_HandleTypeDef huart2;
 
 /* USER CODE BEGIN PV */
+#define USART2_BUFFER_SIZE 8
+uint8_t usart2_buffer[USART2_BUFFER_SIZE];
+ring_buffer_t usart2_rb;
+uint8_t usart2_rx;
 
+uint32_t left_toggles = 0;
+uint32_t left_last_press_tick = 0;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
